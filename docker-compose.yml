@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  server:
+    build: ./server
+    container_name: final_server
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - AZURE_VISION_ENDPOINT=${AZURE_VISION_ENDPOINT}
+      - AZURE_VISION_KEY=${AZURE_VISION_KEY}
+    volumes:
+      - ./server:/usr/src/app
+    command: ["npm", "start"]
+
+  client:
+    build: ./client
+    container_name: final_client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
